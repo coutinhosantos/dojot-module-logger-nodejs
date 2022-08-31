@@ -7,12 +7,12 @@ import * as winston from "winston";
 
 /* Levels of debug */
 const debugLevels = ["debug", "info", "warn", "error"];
+const sid = '';
 
 function formatParams(info: TransformableInfo) {
-    const { timestamp, level, message, ...args } = info;
-    const ts = timestamp.slice(0, 19).replace("T", " ");
-    const filename = Object.keys(args).length ? ` -- |${args.filename}` : "";
-    return `<${ts}>${filename} -- ${level}: ${message}`;
+    // text to be logged
+    const text = `${info.timestamp}${logger.getSid() ? ` | sid=${logger.getSid()}` : ''} | level=${info.level} | ${(info.file && info.line) ? `file=(${info.file}:${info.line}) | ` : ''}message=${info.message}${info.rid ? ` | rid=${info.rid}` : ''}`;
+    return text;
 }
 
 /**
@@ -83,6 +83,15 @@ const logger = {
         }
     },
     warn: (data: string, config: any) => { internalLogger.warn(data, config); },
+    getSid: () => sid,
+    setSid: (sid: string) => {
+        if (sid.length > 0) {
+            sid = sid;
+            return 1;
+        } else {
+            return 0;
+        }
+    },
 };
 
 /**
