@@ -85,8 +85,7 @@ const logger = {
     warn: (data: string, config: any) => { internalLogger.warn(data, config); },
     getSid: () => sid,
     setSid: (sid: string) => {
-        if (sid.length > 0) {
-            sid = sid;
+        if (sid.length > 0) {            
             return 1;
         } else {
             return 0;
