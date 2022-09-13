@@ -7,8 +7,7 @@ import * as winston from "winston";
 
 /* Levels of debug */
 const debugLevels = ["debug", "info", "warn", "error"];
-const sid = '';
-
+let _sid = '';
 function formatParams(info: TransformableInfo) {
     // text to be logged
     const text = `${info.timestamp}${logger.getSid() ? ` | sid=${logger.getSid()}` : ''} | level=${info.level} | ${(info.file && info.line) ? `file=(${info.file}:${info.line}) | ` : ''}message=${info.message}${info.rid ? ` | rid=${info.rid}` : ''}`;
@@ -83,13 +82,9 @@ const logger = {
         }
     },
     warn: (data: string, config: any) => { internalLogger.warn(data, config); },
-    getSid: () => sid,
+    getSid: () => _sid,
     setSid: (sid: string) => {
-        if (sid.length > 0) {            
-            return 1;
-        } else {
-            return 0;
-        }
+        _sid = sid;
     },
 };
 
